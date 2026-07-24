@@ -4,6 +4,8 @@ const email = "heartsportsmedia@gmail.com";
 const phone = "626-319-2399";
 const phoneHref = "tel:+16263192399";
 const smsHref = "sms:+16263192399";
+const formUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfLkk90lxTBnL-WaUreoEG-3SMns4NxDOmcsj0NWpYhxTG-ow/viewform";
 
 const packages = [
   {
@@ -34,8 +36,8 @@ const packages = [
 ];
 
 const steps = [
-  { n: "01", title: "Reach Out", body: `Text Shayna at ${phone}.` },
-  { n: "02", title: "Get the Form", body: "You'll receive a Google Form to complete." },
+  { n: "01", title: "Reach Out", body: `Text Shayna at ${phone} to check slot availability.` },
+  { n: "02", title: "Fill the Form", body: "Complete the quick booking form with your player's details.", link: formUrl },
   { n: "03", title: "Secure Your Spot", body: `Zelle ${phone} — include player name & # in the comment.` },
 ];
 
@@ -84,7 +86,9 @@ const services = ["Heavy-Hit Action", "Custom Posters", "Game Day Portraits"];
           <a href="#booking">How to Book</a>
           <a href="#contact">Contact</a>
         </nav>
-        <a class="btn btn-primary btn-sm" href="#booking">Book Your Slot</a>
+        <a class="btn btn-primary btn-sm" href={formUrl} target="_blank" rel="noopener noreferrer"
+          >Book Your Slot</a
+        >
       </div>
     </header>
 
@@ -161,7 +165,12 @@ const services = ["Heavy-Hit Action", "Custom Posters", "Game Day Portraits"];
                     </li>
                   ))}
                 </ul>
-                <a class:list={["btn", "pkg-btn", p.featured ? "btn-primary" : "btn-outline"]} href="#booking">
+                <a
+                  class:list={["btn", "pkg-btn", p.featured ? "btn-primary" : "btn-outline"]}
+                  href={formUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Book {p.name}
                 </a>
               </article>
@@ -185,6 +194,11 @@ const services = ["Heavy-Hit Action", "Custom Posters", "Game Day Portraits"];
                 <span class="step-n">{s.n}</span>
                 <h3 class="step-title">{s.title}</h3>
                 <p class="step-body">{s.body}</p>
+                {s.link && (
+                  <a class="step-link" href={s.link} target="_blank" rel="noopener noreferrer">
+                    Open the form &rarr;
+                  </a>
+                )}
               </div>
             ))
           }
@@ -206,7 +220,10 @@ const services = ["Heavy-Hit Action", "Custom Posters", "Game Day Portraits"];
         <h2 class="contact-title">Ready for the <span class="hl">spotlight?</span></h2>
         <p class="contact-sub">Secure your athlete's coverage before the next kickoff.</p>
         <div class="contact-actions">
-          <a class="btn btn-primary btn-lg" href={smsHref}>Text {phone}</a>
+          <a class="btn btn-primary btn-lg" href={formUrl} target="_blank" rel="noopener noreferrer"
+            >Book Now</a
+          >
+          <a class="btn btn-ghost btn-lg" href={smsHref}>Text {phone}</a>
           <a class="btn btn-ghost btn-lg" href={`mailto:${email}`}>Email Us</a>
         </div>
         <div class="contact-meta">
@@ -727,6 +744,20 @@ const services = ["Heavy-Hit Action", "Custom Posters", "Game Day Portraits"];
   .step-body {
     color: var(--muted);
     font-size: 0.96rem;
+  }
+  .step-link {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 0.86rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--red);
+    transition: transform 0.2s var(--ease), color 0.2s;
+  }
+  .step-link:hover {
+    color: var(--red-bright);
+    transform: translateX(3px);
   }
 
   /* ---- Alert ---- */
