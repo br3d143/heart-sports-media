@@ -77,15 +77,12 @@ const steps = [
 
 const services = ["Heavy-Hit Action", "Custom Posters", "Game Day Portraits"];
 
-// Drop real photos into public/assets/gallery/ with these names and they appear automatically.
-// Until then, styled placeholder tiles show.
+// Real game-day photos, laid out as a bento grid (first tile is the large feature).
 const gallery = [
-  { src: "/assets/gallery/action-1.jpg", tag: "Action", alt: "Athlete in game-day action" },
-  { src: "/assets/gallery/action-2.jpg", tag: "Action", alt: "Athlete in game-day action" },
-  { src: "/assets/gallery/poster-1.jpg", tag: "Poster", alt: "Custom highlight poster" },
-  { src: "/assets/gallery/action-3.jpg", tag: "Action", alt: "Athlete in game-day action" },
-  { src: "/assets/gallery/portrait-1.jpg", tag: "Portrait", alt: "Game-day portrait" },
-  { src: "/assets/gallery/action-4.jpg", tag: "Action", alt: "Athlete in game-day action" },
+  { src: "/assets/gallery/action-launch.jpg", tag: "Heavy-Hit Action", alt: "Young quarterback winding up to launch a pass mid-game" },
+  { src: "/assets/gallery/action-throw.jpg", tag: "Game Day", alt: "Athlete throwing downfield on the turf" },
+  { src: "/assets/gallery/gameday-ready.jpg", tag: "On the Field", alt: "Flag football player set with the ball, ready to make a play" },
+  { src: "/assets/gallery/action-pocket.jpg", tag: "Action", alt: "Quarterback dropping back in the pocket" },
 ];
 ---
 
@@ -139,6 +136,9 @@ const gallery = [
 
     <!-- ===== HERO ===== -->
     <section class="hero">
+      <div class="hero-photo" aria-hidden="true">
+        <img src="/assets/gallery/action-launch.jpg" alt="" onerror="this.style.display='none'" />
+      </div>
       <div class="hero-glow" aria-hidden="true"></div>
       <div class="hero-slash" aria-hidden="true"></div>
       <div class="wrap hero-inner">
@@ -156,7 +156,6 @@ const gallery = [
           >
           <a class="btn btn-ghost btn-lg" href="#gallery">View the Gallery &rarr;</a>
         </div>
-        <img src="/assets/logo-icon.png" alt="Heart Sports Media logo" class="hero-emblem reveal" />
       </div>
     </section>
 
@@ -350,8 +349,8 @@ const gallery = [
     <!-- ===== ABOUT ===== -->
     <section class="section about" id="about">
       <div class="wrap about-inner">
-        <div class="about-media reveal">
-          <img src="/assets/logo-icon.png" alt="Heart Sports Media" />
+        <div class="about-media has-photo reveal">
+          <img src="/assets/gallery/gameday-ready.jpg" alt="Young athlete set on the field, ready for the play" onerror="this.closest('.about-media').classList.remove('has-photo'); this.src='/assets/logo-icon.png';" />
         </div>
         <div class="about-copy reveal">
           <p class="kicker">Behind the Lens</p>
@@ -640,6 +639,27 @@ const gallery = [
     background:
       radial-gradient(1000px 500px at 78% 8%, rgba(209, 31, 46, 0.16), transparent 60%),
       linear-gradient(180deg, #0c0c0e, var(--black));
+  }
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% 42%;
+    opacity: 0.42;
+  }
+  .hero-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, var(--black) 6%, rgba(9, 9, 10, 0.78) 42%, rgba(9, 9, 10, 0.25) 100%),
+      linear-gradient(180deg, rgba(9, 9, 10, 0.3) 0%, transparent 30%, var(--black) 98%);
   }
   .hero-glow {
     position: absolute;
@@ -1092,18 +1112,25 @@ const gallery = [
   /* ---- Gallery ---- */
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 192px;
+    gap: 16px;
   }
   .shot {
     position: relative;
-    aspect-ratio: 4 / 5;
     border-radius: 14px;
     overflow: hidden;
     border: 1px solid var(--line);
     background:
       radial-gradient(120% 90% at 30% 10%, rgba(209, 31, 46, 0.28), transparent 55%),
       linear-gradient(160deg, var(--panel-2), var(--black));
+  }
+  .shot:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .shot:nth-child(2) {
+    grid-column: span 2;
   }
   .shot::after {
     content: "";
@@ -1166,6 +1193,20 @@ const gallery = [
   .about-media img {
     width: 62%;
     filter: drop-shadow(0 20px 50px rgba(209, 31, 46, 0.5));
+  }
+  .about-media.has-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    filter: none;
+  }
+  .about-media.has-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(9, 9, 10, 0.55));
+    pointer-events: none;
   }
   .about-title {
     margin-bottom: 22px;
@@ -1346,6 +1387,19 @@ const gallery = [
     }
     .gallery-grid {
       grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: auto;
+    }
+    .shot {
+      aspect-ratio: 4 / 5;
+    }
+    .shot:nth-child(1) {
+      grid-column: span 2;
+      grid-row: auto;
+      aspect-ratio: 16 / 10;
+    }
+    .shot:nth-child(2) {
+      grid-column: span 2;
+      aspect-ratio: 16 / 10;
     }
   }
   @media (max-width: 720px) {
